@@ -5,24 +5,21 @@ const app = express();
 const { connectDB }=  require("./config/database");
 const User = require("./models/user")
 
+app.use(express.json());
 //creating a post api
 app.post("/signup", async(req,res)=>{
     // logic to add data into the database
+    console.log(req.body);
     
     // creating an instance of the User model
-    const user = new User({
-        firstName: "Akhil",
-        lastName: "Yeddu",
-        emailId : "akhilkiu10@gmail.com",
-        password : "Ajayakki@ 05"
-    })
+    const user = new User(req.body);
 
     try{
         await user.save()
         res.send("User added successfully!");
     }
     catch(err){
-        res.send("something went wrong, user hasn't been inserted")
+        res.status(400).send("something went wrong, user hasn't been inserted")
     }
     
 
