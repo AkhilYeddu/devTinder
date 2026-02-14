@@ -36,7 +36,7 @@ app.get("/user", async (req,res)=>{
 
     try{
         // gives an array of objects
-        const users = await User.findOne({});
+        const users = await User.findOne({emailId:userEmail});
         if(users.length===0){
             res.status(400).send("User not found");
         }
@@ -71,8 +71,57 @@ app.get("/feed", async(req,res)=>{
 
 })
 
+// get user BY ID
+app.get("/userId",async (req,res)=>{
+    try{
+        const id = req.body._id;
+        const users = await User.findById({_id: id})
+
+    if(users.length === 0){
+        res.status(400).send("Users not found");
+    }
+    else{
+        res.send(users);
+    }
+
+    }catch(err)
+    {
+        res.status(400).send("Something went wrong")
+    }
+    
+})
+
+// deleting a User by ID
+app.delete("/user",async (req, res)=>{
+    try{
+        const userId = req.body.userId;
+        const user = await User.findByIdAndDelete(userId);
+        // const user = await User.findByIdAndDelete({_id:userId}); this also works in the same way
+        res.send("User deleted successfully! ");
 
 
+
+    }catch(err)
+    {
+        res.status(400).send("Something went wrong")
+    }
+})
+
+// updating a user into the database
+app.patch("/user",async(req, res)=>{
+    const userId = req.body.userId;
+    const data = req.body;
+    try{    
+        await User.findByIdAndUpdate({_id : userId},data,{
+            returnDocument : "before"
+        });
+        res.send("User updated successfully!");
+    }catch(err)
+    {
+        res.status(400).send("Something went wrong")
+    }
+    
+})
 
 //creating a post api
 app.post("/signup", async(req,res)=>{
