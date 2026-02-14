@@ -46,3 +46,6 @@
 - JSON V/S JSObject (Difference)
 - Add the express.json() to your app
 - Make your signup API dynamic to receive data from the end user
+- User.findOne() with duplicate emailIds, which document will be returned
+- /get API - get  user by Email
+- /feed API  - get all users data from the database

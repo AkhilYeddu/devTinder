@@ -6,6 +6,74 @@ const { connectDB }=  require("./config/database");
 const User = require("./models/user")
 
 app.use(express.json());
+
+
+// /get API - get  user by Email
+// app.get("/user", async (req,res)=>{
+//     const userEmail = req.body.emailId;
+
+//     try{
+//         // gives an array of objects
+//         const users = await User.find({emailId : userEmail});
+//         if(users.length===0){
+//             res.status(400).send("User not found");
+//         }
+//         else{
+//             res.send(users);
+//         }
+        
+//     }
+//     catch(err){
+//         res.status(400).send("Something went wrong");
+//     }
+    
+
+// })
+
+// findOne
+app.get("/user", async (req,res)=>{
+    const userEmail = req.body.emailId;
+
+    try{
+        // gives an array of objects
+        const users = await User.findOne({});
+        if(users.length===0){
+            res.status(400).send("User not found");
+        }
+        else{
+            res.send(users);
+        }
+        
+    }
+    catch(err){
+        res.status(400).send("Something went wrong");
+    }
+    
+
+})
+
+// /feed API  - get all users data from the database
+app.get("/feed", async(req,res)=>{
+
+    try{
+        const users = await User.find({});
+        if(users.length === 0){
+            res.status(400).send("user not found");
+        }
+        else{
+            res.send(users);
+        }
+    }
+    catch(err){
+        res.status(400).send("Something went wrong");
+    }
+    
+
+})
+
+
+
+
 //creating a post api
 app.post("/signup", async(req,res)=>{
     // logic to add data into the database
