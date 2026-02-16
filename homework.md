@@ -68,3 +68,7 @@
 - install Validator
 - Explore validator library and use validator functions for emailId, password, and photoUrl
 - DONT TRUST REQ.BODY!!
+
+- validate data in signupAPI (using helper function)
+- install bcrypt
+- create passwordHash using bcrypt.hash and save the user with encrypted password
