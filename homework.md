@@ -63,3 +63,5 @@
 - add custom validtion function for age property
 - improve the DB schema - put all appropriate  validations on each field in schema
 - add timestamps to the user schema
+- add API level validations on patch request and signup POST api
+- Data Sanitizing- add API validations for each field
