@@ -111,6 +111,7 @@ app.delete("/user",async (req, res)=>{
 app.patch("/user/:userId",async(req, res)=>{
     const userId = req.params?.userId;
     const data = req.body;
+    console.log(data)
     try{
         const ALLOWED_UPDATES = [
             "photoUrl",
@@ -120,10 +121,11 @@ app.patch("/user/:userId",async(req, res)=>{
             "skills"
         ]
         const isUpdateAllowed = Object.keys(data).every((key)=> ALLOWED_UPDATES.includes(key));
+        console.log(isUpdateAllowed)
         if(!isUpdateAllowed){
             throw new Error("Update not allowed")
         }
-        if(data?.skills.length > 10){
+        if(data?.skills?.length > 10){
             throw new Error("Skills cannot be more than 10")
         }    
         await User.findByIdAndUpdate({_id : userId},data,{
@@ -141,7 +143,7 @@ app.patch("/user/:userId",async(req, res)=>{
 //creating a post api
 app.post("/signup", async(req,res)=>{
     // logic to add data into the database
-    console.log(req.body);
+
     
     // creating an instance of the User model
     const user = new User(req.body);
