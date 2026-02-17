@@ -4,7 +4,7 @@ const app = express();
 
 const { connectDB }=  require("./config/database");
 const User = require("./models/user")
-const {validateSignUpData} = require("./utils/validation")
+const {validateSignUpData, validateLoginData} = require("./utils/validation")
 const bcrypt = require("bcrypt");
 
 app.use(express.json());
@@ -172,6 +172,31 @@ app.post("/signup", async(req,res)=>{
     
 
     
+})
+
+app.post("/login", async(req,res)=>{
+    try{
+        validateLoginData(req);
+        const{emailId, password} = req.body;
+        // check if emailId is present or not
+        const user = await User.findOne({emailId : emailId});
+        if(!user){
+            throw new Error("Email ID not found in the Database.");
+        }
+        const isPasswordValid = await bcrypt.compare(password,user.password)
+        if(isPasswordValid){
+            res.send("Welcome User!");
+            
+        }
+        else{
+            throw new Error("Wrong password, please try again");
+        }
+        
+    }
+    
+    catch(err){
+        res.status(400).send(err.message)
+    }
 })
 
 connectDB().then(()=>{
