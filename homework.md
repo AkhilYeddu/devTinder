@@ -86,4 +86,6 @@
 - create userSchema method to getJWT()
 - create userSchema method to validatePassword(passwordInputByUser)
 
+- explore the tinder APIs
+
 
