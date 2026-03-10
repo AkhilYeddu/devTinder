@@ -8,8 +8,8 @@ requestRouter.post("/sendConnectionRequest", userAuth, async(req, res)=>{
     console.log("Sending a connection request!");
 
     res.send(user.firstName + " sent a Connection Request!");
-})
 
+})
 module.exports = {
     requestRouter
 }

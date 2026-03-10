@@ -86,6 +86,16 @@
 - create userSchema method to getJWT()
 - create userSchema method to validatePassword(passwordInputByUser)
 
-- explore the tinder APIs
+- Explore the tinder APIs
+- Create a list of all APis you can think of in DevTinder
+- Group multiple routes under respective routers
+- Read documenation for express.Router
+- Create routes folder for managing auth, profile, request routers
+- Create authRouter, profileRouter, requestRouter
+- Import these router in app.js
+- create post /logout API and test it
+- create patch /profile/edit API
+- create patch /profile/password API (forgot password API)
+- Make sure you validate data in every POST, PATCH request
 
 
