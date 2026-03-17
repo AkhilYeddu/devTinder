@@ -9,7 +9,8 @@ const userSchema = new Schema({
         type: String,
         required : true,
         minLength : 4,
-        maxLength : 50
+        maxLength : 50,
+        index : true
         
     },
     lastName : {
@@ -45,11 +46,15 @@ const userSchema = new Schema({
     },
     gender : {
         type : String,
-        validate(value){
-            if(!["male","female","others"].includes(value)){
-                throw new Error ("gender data is not valid");
-            }
+        enum : {
+            values : ["male", "female", "others"],
+            message : `{VALUE} is not gender`
         }
+        // validate(value){
+        //     if(!["male","female","others"].includes(value)){
+        //         throw new Error ("gender data is not valid");
+        //     }
+        // }
     },
     photoUrl: {
         type : String,

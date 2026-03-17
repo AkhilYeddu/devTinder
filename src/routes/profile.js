@@ -41,7 +41,7 @@ profileRouter.patch("/profile/password",userAuth, async(req, res)=>{
         const { user } = req;
         const {newPass, oldPass} = req.body;
         const isMatching = await user.validatePassword(oldPass);
-        console.log(isMatching);
+     
         if(!isMatching)
         {
             throw new Error("Old Passwords do not match!");
@@ -53,7 +53,9 @@ profileRouter.patch("/profile/password",userAuth, async(req, res)=>{
         user.password = newPassHash;
         await user.save();
 
-        res.send("success!");
+        res.json({message : `${user.firstName}, your password was changed successfully!`,
+            data : user}
+        );
     }
     catch(err)
     {
