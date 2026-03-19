@@ -55,7 +55,7 @@ authRouter.post("/login", async (req,res)=>{
             res.cookie("token",token,{
                 expires : new Date(Date.now() + 1 * 3600000)
             });
-            res.send("Welcome User!");
+            res.send(`Welcome ${user.firstName}`);
             
         }
         else{

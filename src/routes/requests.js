@@ -5,7 +5,7 @@ const {userAuth} = require("../middlewares/auth");
 const User = require("../models/user");
 const ConnectionRequest = require("../models/connectionRequest");
 
-requestRouter.post("/send/:status/:toUserId", userAuth, async(req, res)=>{
+requestRouter.post("/request/send/:status/:toUserId", userAuth, async(req, res)=>{
     try{
         const fromUserId = req.user._id;
         const toUserId = req.params.toUserId;
@@ -46,12 +46,49 @@ requestRouter.post("/send/:status/:toUserId", userAuth, async(req, res)=>{
         });
         const data = await connectionRequest.save();
         res.json({
-            message : `${req.user.firstName} is ${status} in  ${toUser.firstName}`,
+            message : `${req.user.firstName}, you sent ${status} to  ${toUser.firstName}`,
             data
         })
 
     }catch(err){
        res.status(400).send("ERROR : " + err.message)
+    }
+})
+
+requestRouter.post("/request/review/:status/:requestId",userAuth, async(req,res)=>{
+    try{
+        const loggedInUser = req.user;
+        const allowedStatus = ["accepted","rejected"];
+        const {status, requestId} = req.params;
+
+        // validate status
+        if(!allowedStatus.includes(status)){
+            res.status(400).json({message : "Invalid Status!"});
+        }
+
+        // validate request Id
+        const connectionRequest = await ConnectionRequest.findOne({
+            _id : requestId,
+            toUserId : loggedInUser._id,
+            status : "interested"
+        })
+
+        if(!connectionRequest){
+            res.status(400).json({message: "Connection request not found!"});
+        }
+
+        // if found,
+        connectionRequest.status =  status;
+        const fromUser = await User.findById(connectionRequest.fromUserId);
+
+        const data = await connectionRequest.save();
+        res.json({message : `${loggedInUser.firstName}, you ${status} request of ${fromUser.firstName}`,
+        data});
+        
+
+        
+    }catch(err){
+        res.status(400).send("ERROR : "+err.message)
     }
 })
 module.exports = {

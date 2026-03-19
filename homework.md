@@ -110,4 +110,11 @@
 - Read article about compound indexes in MongoDB website
 - ALWAYS THINK ABOUT CORNER CASES
 
+- Write code for POST /request/review/:status/:requestId API Call
+- Thought process - GET vs POST
+- Read about ref and populate
+- Create GET /user/requests/received with all the checks
+
+- Create GET /user/connections
+
 
