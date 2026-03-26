@@ -114,7 +114,11 @@
 - Thought process - GET vs POST
 - Read about ref and populate
 - Create GET /user/requests/received with all the checks
-
 - Create GET /user/connections
+
+- Logic for GET /feed API
+- Explore the $nin, $and, $ne and other query operators
+- 
+
 
 

@@ -29,7 +29,7 @@ connectDB().then(()=>{
     console.log("Server running successfully on port 3000...");
 })
 }).catch(err=>{
-    console.error("Some error occured!");
+    console.error("Some error occured!: " + err.message);
 })
 
 
