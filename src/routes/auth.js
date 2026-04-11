@@ -10,6 +10,7 @@ authRouter.post("/signup", async(req, res)=>{
     try{
     // validate the data
     validateSignUpData(req)
+    
 
     const {firstName, lastName, emailId, password} = req.body;
     console.log(password)
@@ -40,7 +41,6 @@ authRouter.post("/signup", async(req, res)=>{
 
 authRouter.post("/login", async (req,res)=>{
     try{
-        
         validateLoginData(req);
         const{emailId, password} = req.body;
         // check if emailId is present or not
@@ -53,9 +53,9 @@ authRouter.post("/login", async (req,res)=>{
 
             const token = await user.getJWT();
             res.cookie("token",token,{
-                expires : new Date(Date.now() + 1 * 3600000)
+                expires : new Date(Date.now() + 1 * 3600000),
             });
-            res.send(`Welcome ${user.firstName}`);
+            res.send(user);
             
         }
         else{
