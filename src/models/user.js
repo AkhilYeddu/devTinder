@@ -60,6 +60,9 @@ const userSchema = new Schema({
         type : String,
         default : "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2558760599.jpg",
         validate(value){
+            if (!value) return true;
+
+
             if(!validator.isURL(value)){
                 throw new Error("Enter a valid URL: " + value );
             }

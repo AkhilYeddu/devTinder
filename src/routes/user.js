@@ -6,7 +6,7 @@ const User = require("../models/user");
 const ConnectionRequest = require("../models/connectionRequest");
 const { connect, connection } = require("mongoose");
 
-const USER_SAFE_DATA = ["firstName", "lastName", "about", "photoUrl" ,"age", "skills"]
+const USER_SAFE_DATA = ["firstName", "lastName", "about", "photoUrl" ,"age", "skills","gender"]
 
 // GET All the connections of the loggedIn User.
 userRouter.get("/user/connections",userAuth, async(req, res)=>{
@@ -18,8 +18,8 @@ userRouter.get("/user/connections",userAuth, async(req, res)=>{
                 { fromUserId : loggedInUser._id, status : "accepted"},
                 { toUserId : loggedInUser._id, status : "accepted"}
             ]
-        }).populate("fromUserId",["firstName", "lastName"])
-            .populate("toUserId", ["firstName", "lastName"])
+        }).populate("fromUserId",["firstName", "lastName", "about", "photoUrl" ,"age", "skills","gender"])
+            .populate("toUserId",["firstName", "lastName", "about", "photoUrl" ,"age", "skills","gender"])
 
 
         const data = connectionRequest.map((row)=>{
