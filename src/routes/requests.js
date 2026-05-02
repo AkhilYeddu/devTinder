@@ -4,6 +4,7 @@ const requestRouter = express.Router()
 const {userAuth} = require("../middlewares/auth");
 const User = require("../models/user");
 const ConnectionRequest = require("../models/connectionRequest");
+const sendEmail = require("../utils/sendEmail");
 
 requestRouter.post("/request/send/:status/:toUserId", userAuth, async(req, res)=>{
     try{
@@ -45,6 +46,8 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async(req, res)=
             status
         });
         const data = await connectionRequest.save();
+        const emailRes = await sendEmail.run("You have got a new friend request from " + req.user.firstName,"YO THIS IS MESSAGE'S BODY");
+        console.log(emailRes);
         res.json({
             message : `${req.user.firstName}, you sent ${status} to  ${toUser.firstName}`,
             data

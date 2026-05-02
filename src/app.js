@@ -1,4 +1,5 @@
 // This is the starting point of our DevTinder Project
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const { connectDB } =  require("./config/database");
@@ -26,7 +27,7 @@ app.use("/",userRouter);
 
 connectDB().then(()=>{
     console.log("Connected to the database!");
-    app.listen(3000, ()=>{
+    app.listen(process.env.PORT, ()=>{
     console.log("Server running successfully on port 3000...");
 })
 }).catch(err=>{
