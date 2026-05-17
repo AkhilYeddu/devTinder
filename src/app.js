@@ -1,5 +1,6 @@
 // This is the starting point of our DevTinder Project
 require("dotenv").config();
+require("./utils/cronJob");
 const express = require("express");
 const app = express();
 const { connectDB } =  require("./config/database");
@@ -17,11 +18,13 @@ const {authRouter} = require("./routes/auth");
 const {profileRouter} = require("./routes/profile");
 const {requestRouter} = require("./routes/requests");
 const {userRouter} = require("./routes/user");
+const { paymentRouter } = require("./routes/payment");
 
 app.use("/",authRouter);
 app.use("/",profileRouter);
 app.use("/",requestRouter);
 app.use("/",userRouter);
+app.use("/",paymentRouter);
 
 
 

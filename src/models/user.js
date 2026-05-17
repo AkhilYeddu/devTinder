@@ -56,6 +56,15 @@ const userSchema = new Schema({
         //     }
         // }
     },
+    isPremium : {
+        type: Boolean,
+        default : false
+
+    },
+    membershipType: {
+        type : String,
+
+    },
     photoUrl: {
         type : String,
         default : "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2558760599.jpg",
