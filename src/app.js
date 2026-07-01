@@ -15,7 +15,8 @@ const allowedOrigins = [
 ].filter(Boolean);
 
 app.use(cors({
-    origin: "https://dev-tinder-web-rho-puce.vercel.app/",
+    origin: "https://dev-tinder-web-rho-puce.vercel.app",
+    "http://localhost:5173"
     credentials : true
 }));
 app.use(express.json());
