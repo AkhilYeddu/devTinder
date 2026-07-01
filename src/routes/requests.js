@@ -32,7 +32,7 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async(req, res)=
         })
 
         if(existingConnectionRequest){
-            res.status(400).json({message : "Invalid connection request! A connection request already exists between these users."});
+            return res.status(400).json({message : "Invalid connection request! A connection request already exists between these users."});
         }
 
         
@@ -46,15 +46,15 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async(req, res)=
             status
         });
         const data = await connectionRequest.save();
-        const emailRes = await sendEmail.run("You have got a new friend request from " + req.user.firstName,"YO THIS IS MESSAGE'S BODY");
-        console.log(emailRes);
+        // const emailRes = await sendEmail.run("You have got a new friend request from " + req.user.firstName,"YO THIS IS MESSAGE'S BODY");
+        // console.log(emailRes);
         res.json({
             message : `${req.user.firstName}, you sent ${status} to  ${toUser.firstName}`,
             data
         })
 
     }catch(err){
-       res.status(400).send("ERROR : " + err.message)
+       return res.status(400).send("ERROR : " + err.message)
     }
 })
 
