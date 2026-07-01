@@ -8,16 +8,13 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser");
 const http = require("http");
 
-const allowedOrigins = [
-    "http://localhost:5173",
-    
-    process.env.FRONTEND_URL, // e.g. https://your-app.vercel.app
-].filter(Boolean);
 
 app.use(cors({
-    origin: "https://dev-tinder-web-rho-puce.vercel.app",
-    "http://localhost:5173"
-    credentials : true
+    origin: [
+        "https://dev-tinder-web-rho-puce.vercel.app",
+        "http://localhost:5173"
+    ],
+    credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
