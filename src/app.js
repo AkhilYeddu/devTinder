@@ -3,31 +3,43 @@ require("dotenv").config();
 require("./utils/cronJob");
 const express = require("express");
 const app = express();
-const { connectDB } = require("./config/database");
+const { connectDB } =  require("./config/database");
 const cors = require("cors")
 const cookieParser = require("cookie-parser");
 const http = require("http");
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    process.env.FRONTEND_URL, // e.g. https://your-app.vercel.app
+].filter(Boolean);
+
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true
+    origin: function (origin, callback) {
+        // allow requests with no origin (like mobile apps, curl, Postman)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials : true
 }));
 app.use(express.json());
 app.use(cookieParser());
 
-const { authRouter } = require("./routes/auth");
-const { profileRouter } = require("./routes/profile");
-const { requestRouter } = require("./routes/requests");
-const { userRouter } = require("./routes/user");
+const {authRouter} = require("./routes/auth");
+const {profileRouter} = require("./routes/profile");
+const {requestRouter} = require("./routes/requests");
+const {userRouter} = require("./routes/user");
 const { paymentRouter } = require("./routes/payment");
 const initializeSocket = require("./utils/socket");
 
 
-app.use("/", authRouter);
-app.use("/", profileRouter);
-app.use("/", requestRouter);
-app.use("/", userRouter);
-app.use("/", paymentRouter);
+app.use("/",authRouter);
+app.use("/",profileRouter);
+app.use("/",requestRouter);
+app.use("/",userRouter);
+app.use("/",paymentRouter);
 
 
 const server = http.createServer(app);
@@ -37,12 +49,12 @@ initializeSocket(server);
 
 
 
-connectDB().then(() => {
+connectDB().then(()=>{
     console.log("Connected to the database!");
-    server.listen(process.env.PORT, () => {
-        console.log("Server running successfully on port 3000...");
-    })
-}).catch(err => {
+    server.listen(process.env.PORT, ()=>{
+    console.log("Server running successfully on port 3000...");
+})
+}).catch(err=>{
     console.error("Some error occured!: " + err.message);
 })
 
