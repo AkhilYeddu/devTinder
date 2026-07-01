@@ -10,7 +10,7 @@ const http = require("http");
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://devtinder-backend-q5c0.onrender.com",
+    
     process.env.FRONTEND_URL, // e.g. https://your-app.vercel.app
 ].filter(Boolean);
 
