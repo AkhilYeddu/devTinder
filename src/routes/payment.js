@@ -64,6 +64,8 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
       ? req.body.toString("utf8")
       : "";
 
+      console.log(rawBody)
+
     const isWebhookValid = validateWebhookSignature(
       rawBody,
       webhookSignature,

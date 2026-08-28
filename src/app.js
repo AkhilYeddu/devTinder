@@ -16,8 +16,6 @@ app.use(cors({
     credentials: true,
 }));
 
-// Preserve the exact body bytes for Razorpay signature verification.
-app.use("/payment/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 app.use(cookieParser());
 
