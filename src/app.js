@@ -18,10 +18,6 @@ app.use(cors({
 
 
 
-
-// Capture raw body for Razorpay webhook signature verification
-// Must be registered BEFORE express.json() to get the unparsed body
-app.use("/payment/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 app.use(cookieParser());
 
