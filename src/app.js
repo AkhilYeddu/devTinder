@@ -16,7 +16,13 @@ app.use(cors({
     credentials: true,
 }));
 
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf; // Store raw buffer
+    },
+  })
+);
 app.use(cookieParser());
 
 const {authRouter} = require("./routes/auth");
