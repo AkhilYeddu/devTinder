@@ -91,7 +91,7 @@ const userSchema = new Schema({
 
 userSchema.methods.getJWT = async function(){
     const user = this;
-    const token = await JWT.sign({_id : this._id},  "DEV@Tinder@05", {
+    const token = await JWT.sign({_id : this._id},  "DEV@Tinder@05", { //id is the secret data
         expiresIn : "1d"
     });
     return token;

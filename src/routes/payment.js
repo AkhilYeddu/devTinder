@@ -10,9 +10,10 @@ const {validateWebhookSignature} = require('razorpay/dist/utils/razorpay-utils')
 
 paymentRouter.post("/payment/create",userAuth,async(req, res)=>{
     try{
+        console.log("payment route hit!")
         console.log(req.body)
         const {membershipType} = req.body;
-        console.log(membershipType)
+        // console.log(membershipType)
         const {firstName, lastName, emailId} = req.user;
 
         var options = {
@@ -58,11 +59,12 @@ paymentRouter.post("/payment/create",userAuth,async(req, res)=>{
 paymentRouter.post("/payment/webhook", async(req, res)=>{
     try{
             console.log("webhook called")
-        const webhookSignature = req.get("x-Razorpay-Signature");
+        const webhookSignature = req.get("x-razorpay-signature");
         console.log("webhook signature", webhookSignature);
+        const rawBody = req.body.toString();
 
         const isWebhookValid = validateWebhookSignature(
-            JSON.stringify(req.body),
+            rawBody,
             webhookSignature,
           process.env.RAZORPAY_WEBHOOK_SECRET)
 
@@ -73,7 +75,7 @@ paymentRouter.post("/payment/webhook", async(req, res)=>{
           console.log("valid webhook signature");
 
           // Update payment status in DB
-            const paymentDetails = req.body.payload.payment.entity;
+            const paymentDetails = JSON.parse(rawBody).payload.payment.entity;
             const payment = await Payment.findOne({orderId : paymentDetails.order_id});
             payment.status = paymentDetails.status;
             await payment.save();

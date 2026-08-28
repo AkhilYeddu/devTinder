@@ -8,9 +8,11 @@ const User = require("../models/user");
 
 authRouter.post("/signup", async(req, res)=>{
     try{
+    console.log(req);
+    console.log(req.body)
     // validate the data
     validateSignUpData(req)
-    console.log(req);
+    
     
 
     const {firstName, lastName, emailId, password} = req.body;
@@ -26,7 +28,6 @@ authRouter.post("/signup", async(req, res)=>{
         emailId,
         password : passwordHash
     });
-
 
         const savedUser = await user.save()
         
@@ -45,6 +46,7 @@ authRouter.post("/signup", async(req, res)=>{
     }
     catch(err){
         res.status(400).send(err.message)
+
     }
     
 
@@ -71,8 +73,8 @@ authRouter.post("/login", async (req,res)=>{
                 secure : true,
                 sameSite : "None",
             });
-            res.send(user);
-            
+            res.send(user)
+
         }
         else{
             throw new Error("Wrong password, please try again");
@@ -93,7 +95,7 @@ authRouter.post("/logout", async(req, res)=>{
         sameSite : "None",
     })
     
-    res.send("User logged out successfully!");
+    res.json({message : "User logged out successfully!"})
 })
 
 module.exports = {

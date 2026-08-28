@@ -8,23 +8,17 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser");
 const http = require("http");
 
-const allowedOrigins = [
-    "http://localhost:5173",
-    
-    process.env.FRONTEND_URL, // e.g. https://your-app.vercel.app
-].filter(Boolean);
-
 app.use(cors({
-    origin: function (origin, callback) {
-        // allow requests with no origin (like mobile apps, curl, Postman)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials : true
+    origin: "http://localhost:5173",
+    credentials: true,
 }));
+
+
+
+
+// Capture raw body for Razorpay webhook signature verification
+// Must be registered BEFORE express.json() to get the unparsed body
+app.use("/payment/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -36,6 +30,8 @@ const { paymentRouter } = require("./routes/payment");
 const initializeSocket = require("./utils/socket");
 
 
+
+
 app.use("/",authRouter);
 app.use("/",profileRouter);
 app.use("/",requestRouter);
@@ -43,11 +39,9 @@ app.use("/",userRouter);
 app.use("/",paymentRouter);
 
 
+
 const server = http.createServer(app);
-
 initializeSocket(server);
-
-
 
 
 connectDB().then(()=>{

@@ -4,9 +4,11 @@ const User = require("../models/user");
 
 const userAuth = async (req, res, next) =>{
     try{
+        
     // read the token from the cookie in req
     const cookie = req.cookies;
     const {token} = cookie
+    console.log(token)
         // console.log("COOKIE:", req.cookies);
         // console.log("TOKEN:", token);
     if (!token || token === "undefined" || token === "null") {
@@ -19,6 +21,7 @@ const userAuth = async (req, res, next) =>{
     const decodedData = await jwt.verify(token, process.env.JWT_SECRET_KEY);
     const{ _id } = decodedData;
     const user = await User.findById(_id);
+    console.log(user)
     if(!user){
         throw new Error("User not found!");
     }
